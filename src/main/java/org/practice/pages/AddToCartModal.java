@@ -8,32 +8,22 @@ import org.practice.helpers.WebElementUtils;
 
 public class AddToCartModal extends WebElementUtils {
 
-    @FindBy(xpath = "//i[contains(@class, 'icon-chevron-left left')]")
+    @FindBy(xpath = "//span[@title ='Continue shopping']")
     WebElement continueShoppingBtn;
     @FindBy(linkText = "Proceed to checkout")
     WebElement proceedToCheckoutBtn;
-    @FindBy(id = "layer_cart_product_attributes")
-    WebElement colorAndSize;
-    @FindBy(xpath = "//*[@id='layer_cart']/div[1]/div[1]/h2")
+    @FindBy(xpath = "//div[contains(@class,'layer_cart_product')]/h2")
     WebElement successMessage;
-    @FindBy(xpath = "//span[contains(@title, 'Close window')]")
-    WebElement closeWindowBtn;
 
 
     public AddToCartModal(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(driver, this);
     }
 
     public String getSuccessMessage() {
         tryAndCatchText(successMessage);
         return successMessage.getText();
-    }
-
-    public String getColorAndSize() {
-        tryAndCatchText(colorAndSize);
-        return colorAndSize.getText();
     }
 
     public void continueShopping() {
@@ -43,10 +33,4 @@ public class AddToCartModal extends WebElementUtils {
     public void proceedToCheckout() {
         click(proceedToCheckoutBtn);
     }
-
-    public void closeWindow() {
-        click(closeWindowBtn);
-    }
-
-
 }

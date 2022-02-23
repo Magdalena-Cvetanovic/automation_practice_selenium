@@ -3,7 +3,6 @@ package org.practice.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.practice.helpers.WebElementUtils;
 
 public class SendToAFriendModal extends WebElementUtils {
@@ -14,11 +13,7 @@ public class SendToAFriendModal extends WebElementUtils {
     WebElement friendEmailInputField;
     @FindBy(id = "sendEmail")
     WebElement sendEmailBtn;
-    @FindBy(linkText = "Cancel")
-    WebElement cancelBtn;
-    @FindBy(xpath = "//a[title='Close']")
-    WebElement closeBtn;
-    @FindBy(xpath = "//input[contains(@value,'OK')]")
+    @FindBy(xpath = "//input[@value='OK']")
     WebElement okBtn;
     @FindBy(xpath = "//div[contains(@class, 'fancybox-inner')]/p")
     WebElement successMessage;
@@ -27,7 +22,6 @@ public class SendToAFriendModal extends WebElementUtils {
     public SendToAFriendModal(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(driver, this);
     }
 
     public void fillOutName(String text) {
@@ -38,16 +32,8 @@ public class SendToAFriendModal extends WebElementUtils {
         sendKeys(friendEmailInputField, text);
     }
 
-    public void send() {
+    public void clickSend() {
         sendEmailBtn.click();
-    }
-
-    public void cancel() {
-        cancelBtn.click();
-    }
-
-    public void close() {
-        click(closeBtn);
     }
 
     public void clickOk() {
@@ -55,6 +41,6 @@ public class SendToAFriendModal extends WebElementUtils {
     }
 
     public String getSuccessMessage() {
-        return successMessage.getText();
+        return tryAndCatchText(successMessage);
     }
 }

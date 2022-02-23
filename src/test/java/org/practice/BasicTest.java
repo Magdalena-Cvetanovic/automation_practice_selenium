@@ -21,21 +21,21 @@ public class BasicTest {
 
     @BeforeClass
     public void setup() throws IOException {
-        System.setProperty("webdriver.chrome.driver", "resources/browserdriver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "resources/browserdriver/chromedriver");
         this.driver = new ChromeDriver();
         this.properties = new Properties();
         properties.load(new FileInputStream("resources/site.properties"));
         driver.manage().window().maximize();
         driver.navigate().to(properties.getProperty("BASE_URL"));
         sa = new SoftAssert();
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
     }
 
     @AfterClass
     public void afterClass() {
-        this.driver.close();
+        this.driver.quit();
     }
 
 }

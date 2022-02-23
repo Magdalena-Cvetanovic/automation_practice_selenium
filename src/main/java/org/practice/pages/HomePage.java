@@ -17,9 +17,8 @@ public class HomePage extends WebElementUtils {
     public HomePage(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(driver, this);
     }
-
+    //what is this for???
     public String getSearchBarValue() {
         return searchBar.getCssValue("value");
     }
