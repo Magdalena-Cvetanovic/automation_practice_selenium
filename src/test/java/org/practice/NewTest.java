@@ -9,37 +9,36 @@ public class NewTest extends BasicTest{
     @Test(priority = 1)
     public void shouldSearchAndViewProduct() {
         HomePage hp = new HomePage(driver);
-        hp.search("Shirt");
+        hp.search(properties.getProperty("searchParam"));
         SearchResultPage srp = new SearchResultPage(driver);
-        String url = driver.getCurrentUrl();
+        Assert.assertTrue(srp.getSearchedTerm().equals(properties.getProperty("searchedTerm")));
         srp.viewProduct();
-        Assert.assertFalse(driver.getCurrentUrl().equals(url));
     }
     @Test(priority = 2)
     public void shouldRecommendToAFriend(){
         ProductPage pp = new ProductPage(driver);
         pp.sendToAFriend();
         SendToAFriendModal stafm = new SendToAFriendModal(driver);
-        stafm.fillOutName("magi");
-        stafm.fillOutEmail("magi@mailinator.com");
+        stafm.fillOutName(properties.getProperty("exampleName"));
+        stafm.fillOutEmail(properties.getProperty("exampleEmail"));
         stafm.clickSend();
-        Assert.assertTrue(stafm.getSuccessMessage().contains("successfully"));
+        Assert.assertTrue(stafm.getSuccessMessage().equals(properties.getProperty("recommendationSuccess")));
         stafm.clickOk();
     }
     @Test(priority = 3)
     public void shouldAddToCartAndContinueShopping(){
         ProductPage pp = new ProductPage(driver);
-        pp.chooseColor("blue");
-        pp.chooseSize("m");
+        pp.chooseColor(properties.getProperty("color"));
+        pp.chooseSize(properties.getProperty("size"));
         pp.addToCart();
         AddToCartModal atcm = new AddToCartModal(driver);
-        Assert.assertTrue(atcm.getSuccessMessage().contains("successfully"));
+        Assert.assertTrue(atcm.getSuccessMessage().equals(properties.getProperty("addedToCartSuccess")));
         atcm.continueShopping();
     }
     @Test(priority = 4)
     public void shouldAddTwoDiscountedProductsToCompareInDresses() {
         Navigation nav = new Navigation(driver);
-        nav.clickNavLink("dresses");
+        nav.clickNavLink(properties.getProperty("navigation"));
         SearchResultPage srp = new SearchResultPage(driver);
         srp.findProductWithDiscount();
         Assert.assertTrue(srp.twoProductsAdded());
@@ -49,8 +48,9 @@ public class NewTest extends BasicTest{
     public void shouldChooseBiggerDiscountAndGoToCheckout(){
         AddToCartModal atcm = new AddToCartModal(driver);
         ProductComparisonPage pcp = new ProductComparisonPage(driver);
+        Assert.assertTrue(pcp.pageIsComparison(properties.getProperty("pageNameComparison")));
         pcp.chooseProductWithDiscountOf20Percent();
-        Assert.assertTrue(atcm.getSuccessMessage().contains("successfully"));
+        Assert.assertTrue(atcm.getSuccessMessage().equals(properties.getProperty("addedToCartSuccess")));
         atcm.proceedToCheckout();
     }
     @Test(priority = 6)

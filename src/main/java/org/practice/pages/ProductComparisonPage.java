@@ -26,7 +26,7 @@ public class ProductComparisonPage extends WebElementUtils {
 
     public Boolean pageIsComparison(String name) {
         Boolean userIsOnComparisonPage = false;
-        if (tryAndCatchText(pageName).contains(name)) {
+        if (tryAndCatchText(pageName).equalsIgnoreCase(name)) {
             userIsOnComparisonPage = true;
         }
         return userIsOnComparisonPage;
