@@ -4,40 +4,39 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.FindBys;
 import org.practice.helpers.WebElementUtils;
 
 import java.util.List;
-import java.util.Random;
+
 
 public class ProductComparisonPage extends WebElementUtils {
 
     @FindBy(xpath = "//div[contains(@id, 'center_column')]/h1")
     private WebElement pageName;
-    @FindBy(xpath = "//*[@id='product_comparison']/tbody/tr[1]/td[2]/div[5]/div/div/a[1]")
-    private WebElement addToCartProductOneBtn;
-    @FindBy(xpath = "//*[@id=\"product_comparison\"]/tbody/tr[1]/td[3]/div[5]/div/div/a[1]")
-    private WebElement addToCartProductTwoBtn;
+    @FindBy(xpath = "//td[contains(@class, 'ajax_block_product')]")
+    private List<WebElement> listOfProductsToCompare;
+    private String discount = "./div[@class = 'prices-container']/span[@class = 'price-percent-reduction']";
+    private String addToCartBtn ="./div[@class='comparison_product_infos']/div/div/a";
 
     public ProductComparisonPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(driver, this);
     }
 
     public Boolean pageIsComparison(String name) {
         Boolean userIsOnComparisonPage = false;
-        if (tryAndCatchText(pageName).contains(name)) {
+        if (tryAndCatchText(pageName).equalsIgnoreCase(name)) {
             userIsOnComparisonPage = true;
         }
         return userIsOnComparisonPage;
     }
 
-    public void chooseProduct() {
-        if (getRandomNumber() == 1) {
-            click(addToCartProductOneBtn);
-        } else {
-            click(addToCartProductTwoBtn);
+    public void chooseProductWithDiscountOf20Percent(){
+        for (WebElement product : listOfProductsToCompare){
+            if(product.findElement(By.xpath(discount)).getText().contains("20")){
+                click(product.findElement(By.xpath(addToCartBtn)));
+            }
         }
     }
 

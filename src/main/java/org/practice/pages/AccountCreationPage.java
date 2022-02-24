@@ -3,7 +3,6 @@ package org.practice.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.practice.helpers.WebElementUtils;
 
@@ -55,27 +54,34 @@ public class AccountCreationPage extends WebElementUtils {
     private WebElement aliasInput;
     @FindBy(id = "submitAccount")
     private WebElement registerBtn;
-
+    private Select days = new Select(daySelect);
+    private Select months = new Select(monthsSelect);
+    private Select years = new Select(yearsSelect);
 
     public AccountCreationPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(driver, this);
+    }
+    private void chooseGender(String gender){
+        if(gender.equalsIgnoreCase("M")){
+            click(genderM);
+        }else if(gender.equalsIgnoreCase("F")){
+            click(genderF);
+        }else{
+            System.out.println("Please enter m for Mr. and f for Mrs. title.");
+        }
     }
 
     private void chooseDay(String day) {
-        Select days = new Select(daySelect);
         days.selectByValue(day);
     }
 
     private void chooseMonth(String month) {
-        Select days = new Select(monthsSelect);
-        days.selectByValue(month);
+        months.selectByValue(month);
     }
 
     private void chooseYear(String year) {
-        Select days = new Select(yearsSelect);
-        days.selectByValue(year);
+        years.selectByValue(year);
     }
 
     private void chooseState(String state) {
@@ -83,12 +89,12 @@ public class AccountCreationPage extends WebElementUtils {
         states.selectByVisibleText(state);
     }
 
-    public void fillOutForm(String firstname, String lastname, String password,
+    public void fillOutForm(String gender, String firstname, String lastname, String password,
                             String day, String month, String year,
                             String company, String address1, String address2,
                             String city, String state, String postCode,
                             String mobilePhone, String alias) {
-        click(genderF);
+        chooseGender(gender);
         sendKeys(customerFirstNameInput, firstname);
         sendKeys(customerLastNameInput, lastname);
         sendKeys(passwordInput, password);
