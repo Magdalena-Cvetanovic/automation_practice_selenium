@@ -9,6 +9,8 @@ import org.practice.helpers.WebElementUtils;
 import java.util.List;
 
 public class CheckoutPage extends WebElementUtils {
+    @FindBy(xpath = "//a[contains(@class, 'standard-checkout')]")
+    private WebElement proceedToCheckOutBtn;
     @FindAll({
             @FindBy (xpath = "//button[@type = 'submit']/span[contains(text(), 'Proceed to checkout')]"),
             @FindBy(xpath = "//button[@type = 'submit']/span[contains(text(), 'I confirm my order')]" )
@@ -24,11 +26,14 @@ public class CheckoutPage extends WebElementUtils {
     private List<WebElement> paymentOptions;
     @FindBy(xpath = "//div[@class ='box'][contains(.,'bank wire' or .,'check')")
     private WebElement successMsg;
-    @FindBy(xpath = "//span[@class = 'navigation_page]")
+    @FindBy(xpath = "//span[@class = 'navigation_page']")
     private WebElement navigationStep;
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
+    }
+    public void clickProceedToCheckout() {
+        click(proceedToCheckOutBtn);
     }
     public void clickProceed(){
         click(nextBtn);
@@ -64,27 +69,10 @@ public class CheckoutPage extends WebElementUtils {
         for (WebElement option : paymentOptions){
             if(option.getText().contains(payment)){
                 click(option);
+                break;
             }else {
                 System.out.println("No such payment option. Enter bank wire or check to choose a payment option.");
             }
         }
-    }
-    private String getCorrectSuccessMsg() {
-        String info = tryAndCatchText(successMsg);
-        String success = "";
-        if (info.contains("bank wire")) {
-            success = tryAndCatchText(successMsg);
-        } else if(info.contains("check")) {
-            success = tryAndCatchText(successMsg);
-        }
-        return success;
-    }
-
-    public Boolean orderIsComplete(String successMsg) {
-        Boolean complete = false;
-        if (getCorrectSuccessMsg().contains(successMsg)) {
-            complete = true;
-        }
-        return complete;
     }
 }

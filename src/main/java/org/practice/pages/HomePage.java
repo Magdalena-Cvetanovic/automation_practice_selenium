@@ -18,11 +18,6 @@ public class HomePage extends WebElementUtils {
         super(driver);
         this.driver = driver;
     }
-    //what is this for???
-    public String getSearchBarValue() {
-        return searchBar.getCssValue("value");
-    }
-
     public void search(String text) {
         sendKeys(searchBar, text);
         click(searchBtn);

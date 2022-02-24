@@ -14,6 +14,8 @@ import java.util.List;
 
 public class SearchResultPage extends WebElementUtils {
 
+    @FindBy (xpath = "//span[@class = 'lighter']")
+    private WebElement searchedTerm;
     @FindBy(xpath = "//form[@class = 'compare-form']")
     private WebElement compareBtn;
     @FindBy(xpath = "//input[@class ='compare_product_count']")
@@ -28,7 +30,10 @@ public class SearchResultPage extends WebElementUtils {
         super(driver);
         this.driver = driver;
     }
-
+    public String getSearchedTerm(){
+        String term = tryAndCatchText(searchedTerm);
+        return term;
+    }
     public void viewProduct(){
         click(searchResults.get(0));
     }

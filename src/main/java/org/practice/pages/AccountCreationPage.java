@@ -77,11 +77,11 @@ public class AccountCreationPage extends WebElementUtils {
     }
 
     private void chooseMonth(String month) {
-        days.selectByValue(month);
+        months.selectByValue(month);
     }
 
     private void chooseYear(String year) {
-        days.selectByValue(year);
+        years.selectByValue(year);
     }
 
     private void chooseState(String state) {
@@ -93,7 +93,7 @@ public class AccountCreationPage extends WebElementUtils {
                             String day, String month, String year,
                             String company, String address1, String address2,
                             String city, String state, String postCode,
-                            String mobilePhone) {
+                            String mobilePhone, String alias) {
         chooseGender(gender);
         sendKeys(customerFirstNameInput, firstname);
         sendKeys(customerLastNameInput, lastname);
