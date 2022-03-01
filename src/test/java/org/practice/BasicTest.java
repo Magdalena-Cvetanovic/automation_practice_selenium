@@ -1,14 +1,14 @@
 package org.practice;
 
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -20,13 +20,19 @@ public class BasicTest {
     public SoftAssert sa;
 
     @BeforeClass
-    public void setup() throws IOException {
-        System.setProperty("webdriver.chrome.driver", "resources/browserdriver/chromedriver");
-        this.driver = new ChromeDriver();
+    @Parameters({"URL","BrowserType"})
+    public void setup(String url, String browserType) throws IOException {
+        if(browserType.equalsIgnoreCase("Chrome")){
+            System.setProperty("webdriver.chrome.driver", "resources/browserdriver/chromedriver");
+            this.driver = new ChromeDriver();}
+        else if(browserType.equalsIgnoreCase("Firefox")){
+            System.setProperty("webdriver.gecko.driver", "resources/browserdriver/geckodriver");
+            this.driver = new FirefoxDriver();
+        }
         this.properties = new Properties();
         properties.load(new FileInputStream("resources/site.properties"));
         driver.manage().window().maximize();
-        driver.navigate().to(properties.getProperty("BASE_URL"));
+        driver.navigate().to(url);
         sa = new SoftAssert();
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

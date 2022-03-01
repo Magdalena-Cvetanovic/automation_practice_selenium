@@ -53,9 +53,6 @@ public class WebElementUtils {
     public void scrollDownJsByLess(){
         js.executeScript("window.scrollBy(0,500)");
     }
-    public void scrollUpJs(){
-        js.executeScript("javascript:window.scrollBy(0,-250)");
-    }
     public void moveToElement(WebElement element){
         waitForElementToBeVisible(element);
         action.moveToElement(element).perform();
@@ -68,19 +65,12 @@ public class WebElementUtils {
         try {
             waitForElementToBeVisible(element);
             text = element.getText();
-            System.out.println(text);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
         return text;
     }
-    public int getRandomNumber(){
-        Random rand = new Random();
-        int number = rand.nextInt(2)+1;
-        return number;
-    }
-
     public String emailGenerator(){
         String email = RandomStringUtils.randomAlphabetic(6).toLowerCase() + "@mailinator.com";
         return email;
